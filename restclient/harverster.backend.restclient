@@ -1,0 +1,18 @@
+# -*- restclient -*-
+
+# GET http://localhost:3000/entries
+
+POST http://localhost:3000/entry
+Content-Type: application/json
+{
+  "scenario": {
+    "from": "tone",
+    "from_unit": "Hz",
+    "to": "color",
+    "to_unit": "Hue"
+  },
+  "selection": {
+    "from": "2000",
+    "to": "210"
+  }
+}
