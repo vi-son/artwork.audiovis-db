@@ -25,7 +25,7 @@
   (let [conn (db-connection)
         db   (mg/get-db conn "harvester")
         coll "documents"]
-    (map #(select-keys % [:scenario :selection :session])
+    (map #(select-keys % [:session :mappings])
          (mc/find-maps db "documents"))))
 
 (defn store-entry [e]
@@ -39,11 +39,15 @@
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "application/json"}
-        :body {:message "Welcome to the BARN"}})
+        :body {:message "vi.son audiovis i/o API"
+               :entries (count (get-entries))
+               :routes {:index "GET /"
+                        :entries "GET /entries"
+                        :upload "POST /entry"}}})
 
   (GET "/entries" []
        (let [entries (get-entries)]
-         (info entries)
+         (info (pr-str entries))
          {:status 200
           :headers {"Content-Type" "application/json"}
           :body entries}))
@@ -51,10 +55,11 @@
   (POST "/entry" req
         (let [body (cc/parse-string (slurp (:body req)) true)]
           (info "\n-----\n")
-          (info (get-in req [:headers "origin"]))
+          (info (get-in req [:headers "host"]))
+          (info (pr-str body))
           (info "\n-----\n")
           (if (or (= "https://harvester.mixing-senses.art" (get-in req [:headers "origin"]))
-                  (= "http://localhost:8080" (get-in req [:headers "origin"])))
+                  (= "127.0.0.1:3000" (get-in req [:headers "host"])))
             (do
               (store-entry body)
               {:status 201

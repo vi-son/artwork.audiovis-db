@@ -1,5 +1,5 @@
 (defproject vi.son-barn "0.0.1-SNAPSHOT"
-  :description ""
+  :description "vi.son backend API for storing data from audiovis i/O artwork"
   :url "https://barn.mixing-senses.art"
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.10.0"]

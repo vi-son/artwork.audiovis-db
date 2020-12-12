@@ -1,18 +1,12 @@
 # -*- restclient -*-
 
-GET https://harvester.mixing-senses.art/entries
+# Get API infos
+GET http://127.0.0.1:3000
 
-# POST http://localhost:3000/entry
-# Content-Type: application/json
-# {
-#   "scenario": {
-#     "from": "tone",
-#     "from_unit": "Hz",
-#     "to": "color",
-#     "to_unit": "Hue"
-#   },
-#   "selection": {
-#     "from": "2000",
-#     "to": "210"
-#   }
-# }
+# Get all the entries
+GET http://127.0.0.1:3000/entries
+
+# Upload an entry
+POST http://127.0.0.1:3000/entry
+Content-Type: application/json
+< ./data/08f406489239afeddc1391e4125cf37b.json
