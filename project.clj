@@ -7,7 +7,8 @@
                  [ring/ring-defaults "0.3.2"]
                  [ring/ring-json "0.5.0"]
                  [com.taoensso/timbre "4.10.0"]
-                 [com.novemberain/monger "3.1.0"]]
+                 [com.novemberain/monger "3.1.0"]
+                 [ring-cors "0.1.13"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler vison.barn.handler/app}
   :profiles

@@ -4,12 +4,14 @@
             [monger.core :as mg]
             [monger.collection :as mc]
             [monger.credentials :as mcr]
+            [monger.conversion :refer [from-db-object]]
             [cheshire.core :as cc]
             [taoensso.timbre :as timbre
              :refer [log  trace  debug  info  warn  error  fatal  report
                      logf tracef debugf infof warnf errorf fatalf reportf
                      spy get-env]]
             [ring.middleware.json :refer [wrap-json-response]]
+            [ring.middleware.cors :refer [wrap-cors]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]])
   (:import [com.mongodb MongoOptions ServerAddress]))
 
@@ -20,6 +22,13 @@
         cred     (mcr/create u admin-db p)
         host     "127.0.0.1"]
     (mg/connect-with-credentials host cred)))
+
+(defn get-entry [totem-id]
+  (let [conn (db-connection)
+        db   (mg/get-db conn "harvester")
+        coll "documents"]
+    (map #(select-keys % [:session :mappings])
+         (mc/find-maps db coll {:session totem-id}))))
 
 (defn get-entries []
   (let [conn (db-connection)
@@ -52,6 +61,10 @@
           :headers {"Content-Type" "application/json"}
           :body entries}))
 
+  (GET "/entry/:id" [id]
+       {:status 200
+        :body {:totem (get-entry id)}})
+
   (POST "/entry" req
         (let [body (cc/parse-string (slurp (:body req)) true)]
           (info "\n-----\n")
@@ -59,17 +72,22 @@
           (info (pr-str body))
           (info "\n-----\n")
           (if (or (= "https://harvester.mixing-senses.art" (get-in req [:headers "origin"]))
-                  (= "127.0.0.1:3000" (get-in req [:headers "host"])))
+                  (= "127.0.0.1:3000" (get-in req [:headers "host"]))
+                  (= "127.0.0.1:3333" (get-in req [:headers "host"])))
             (do
               (store-entry body)
               {:status 201
                :headers {"Content-Type" "application/json"
                          "Access-Control-Allow-Origin" "http://harvester.mixing-senses.art"
-                         "Access-Control-Allow-Headers" "Content-Type"}}
-              :body body)
+                         "Access-Control-Allow-Headers" "Content-Type"}
+               :body {:session (:session body)}})
             {:status 403})))
   
   (route/not-found "Not Found"))
 
 (def app
-  (wrap-json-response app-routes))
+  (-> app-routes
+      wrap-json-response
+      (wrap-cors 
+       :access-control-allow-origin [#".*"]
+       :access-control-allow-methods [:get :post])))
