@@ -6,6 +6,7 @@
                  [compojure "1.6.1"]
                  [ring/ring-defaults "0.3.2"]
                  [ring/ring-json "0.5.0"]
+                 [chrisjd/edn-config "0.1.1"]
                  [com.taoensso/timbre "4.10.0"]
                  [com.novemberain/monger "3.1.0"]
                  [ring-cors "0.1.13"]]

@@ -3,6 +3,7 @@
             [compojure.route :as route]
             [monger.core :as mg]
             [monger.collection :as mc]
+            [edn-config.core :as cfg]
             [monger.credentials :as mcr]
             [monger.conversion :refer [from-db-object]]
             [cheshire.core :as cc]
@@ -15,10 +16,13 @@
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]])
   (:import [com.mongodb MongoOptions ServerAddress]))
 
+(def CONFIG (atom (cfg/load-file "./configuration.edn")))
+
 (defn db-connection []
+  (info "\n\n---- CONFIG:" (pr-str @CONFIG) "\n\n")
   (let [admin-db "admin"
-        u        "***REMOVED***"
-        p        "***REMOVED***"
+        u        (:db-user (:database @CONFIG))
+        p        (:db-password (:database @CONFIG))
         cred     (mcr/create u admin-db p)
         host     "127.0.0.1"]
     (mg/connect-with-credentials host cred)))
@@ -27,14 +31,14 @@
   (let [conn (db-connection)
         db   (mg/get-db conn "harvester")
         coll "documents"]
-    (map #(select-keys % [:session :mappings])
-         (mc/find-maps db coll {:session totem-id}))))
+    (map #(select-keys % [:totem :date :mappings])
+         (mc/find-maps db coll {:totem totem-id}))))
 
 (defn get-entries []
   (let [conn (db-connection)
         db   (mg/get-db conn "harvester")
         coll "documents"]
-    (map #(select-keys % [:session :mappings])
+    (map #(select-keys % [:totem :date :mappings])
          (mc/find-maps db "documents"))))
 
 (defn store-entry [e]
@@ -80,7 +84,7 @@
                :headers {"Content-Type" "application/json"
                          "Access-Control-Allow-Origin" "http://harvester.mixing-senses.art"
                          "Access-Control-Allow-Headers" "Content-Type"}
-               :body {:session (:session body)}})
+               :body {:totem (:totem body)}})
             {:status 403})))
   
   (route/not-found "Not Found"))
