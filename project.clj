@@ -1,6 +1,6 @@
-(defproject vi.son-barn "0.0.1-SNAPSHOT"
+(defproject vi.son-audiovisio-db "0.0.1"
   :description "vi.son backend API for storing data from audiovis i/O artwork"
-  :url "https://barn.mixing-senses.art"
+  :url "https://github.com/vi-son/artwork.audiovis-db"
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [compojure "1.6.1"]
@@ -11,7 +11,7 @@
                  [com.novemberain/monger "3.1.0"]
                  [ring-cors "0.1.13"]]
   :plugins [[lein-ring "0.12.5"]]
-  :ring {:handler vison.barn.handler/app}
+  :ring {:handler vison.audiovisio.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.2"]]}})

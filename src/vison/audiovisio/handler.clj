@@ -1,4 +1,4 @@
-(ns vison.barn.handler
+(ns vison.audiovisio.handler
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [monger.core :as mg]
