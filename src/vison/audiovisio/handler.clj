@@ -53,6 +53,7 @@
        {:status 200
         :headers {"Content-Type" "application/json"}
         :body {:message "vi.son audiovis i/o API"
+               :version (System/getProperty "vi.son-audiovisio-db.version") 
                :entries (count (get-entries))
                :routes {:index "GET /"
                         :entries "GET /entries"
