@@ -27,6 +27,8 @@ jobs:
 
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@3.0
+      with:
+        lein: latest
 
     - name: Build uberjar
       run: lein ring uberjar
