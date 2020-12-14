@@ -19,11 +19,11 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # - name: Setup SSH
-    #   uses: MrSquaare/ssh-setup-action@v1
-    #   with:
-    #     host: github.com
-    #     private-key: ${{ secrets.SSH_KEY }}
+    - name: Setup SSH
+      uses: MrSquaare/ssh-setup-action@v1
+      with:
+        host: github.com
+        private-key: ${{ secrets.SSH_KEY }}
 
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@3.0
@@ -33,17 +33,17 @@ jobs:
     - name: Build uberjar
       run: lein ring uberjar
 
-    # - name: Deploy to server
-    #   id: deploy
-    #   uses: Pendect/action-rsyncer@v1.1.0
-    #   env:
-    #     DEPLOY_KEY: ${{secrets.SSH_KEY}}
-    #   with:
-    #     flags: '-avzr --delete'
-    #     options: ''
-    #     ssh_options: ''
-    #     src: 'build/'
-    #     dest: 'guido@kohoutek.uberspace.de:/var/www/virtual/guido/audiovisio.mixing-senses.art'
+    - name: Deploy to server
+      id: deploy
+      uses: Pendect/action-rsyncer@v1.1.0
+      env:
+        DEPLOY_KEY: ${{secrets.SSH_KEY}}
+      with:
+        flags: '-avzr --delete'
+        options: ''
+        ssh_options: ''
+        src: 'target/'
+        dest: 'guido@kohoutek.uberspace.de:/var/www/virtual/guido/audiovisapi.mixing-senses.art'
 
     - name: Display status from deploy
       run: echo "${{ steps.deploy.outputs.status }}"
