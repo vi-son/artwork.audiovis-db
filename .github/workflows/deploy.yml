@@ -43,7 +43,7 @@ jobs:
         options: ''
         ssh_options: ''
         src: 'target/'
-        dest: 'guido@kohoutek.uberspace.de:/var/www/virtual/guido/audiovisapi.mixing-senses.art'
+        dest: 'guido@kohoutek.uberspace.de:/var/www/virtual/guido/api.mixing-senses.art'
 
     - name: Display status from deploy
       run: echo "${{ steps.deploy.outputs.status }}"
