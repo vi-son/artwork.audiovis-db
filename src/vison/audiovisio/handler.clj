@@ -76,7 +76,7 @@
           (info (get-in req [:headers "host"]))
           (info (pr-str body))
           (info "\n-----\n")
-          (if (or (= "https://harvester.mixing-senses.art" (get-in req [:headers "origin"]))
+          (if (or (= "https://audiovisio.mixing-senses.art" (get-in req [:headers "origin"]))
                   (= "127.0.0.1:3000" (get-in req [:headers "host"]))
                   (= "127.0.0.1:3333" (get-in req [:headers "host"])))
             (do
