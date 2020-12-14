@@ -1,4 +1,4 @@
-# audiovis i/o API backend
+# audiovis i/o API/Database backend
 ### Storing artwork creations in a MongoDB via Clojure
 
 ## Prerequisites
