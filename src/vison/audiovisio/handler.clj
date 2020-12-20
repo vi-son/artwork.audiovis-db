@@ -31,8 +31,8 @@
   (let [conn (db-connection)
         db   (mg/get-db conn "harvester")
         coll "documents"]
-    (map #(select-keys % [:totem :date :mappings])
-         (mc/find-maps db coll {:totem totem-id}))))
+    (-> (mc/find-one-as-map db coll {:totem totem-id})
+        (select-keys [:totem :date :mappings]))))
 
 (defn get-entries []
   (let [conn (db-connection)
@@ -68,7 +68,7 @@
 
   (GET "/entry/:id" [id]
        {:status 200
-        :body {:totem (get-entry id)}})
+        :body (get-entry id)})
 
   (POST "/entry" req
         (let [body (cc/parse-string (slurp (:body req)) true)]
