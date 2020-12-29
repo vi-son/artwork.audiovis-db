@@ -48,3 +48,8 @@ jobs:
     - name: Display status from deploy
       run: echo "${{ steps.deploy.outputs.status }}"
 
+    - name: Install supervisord ini file on server
+      run: ssh guido@kohoutek.uberspace.de cp audiovisdb.ini ~/etc/services.d/
+
+    - name: Run server via supervisord
+      run: ssh guido@kohoutek.uberspace.de supervisorctl reread
