@@ -55,7 +55,7 @@ jobs:
         private-key: ${{ secrets.SSH_KEY }}
 
     - name: Install supervisord ini file on server
-      run: ssh guido@kohoutek.uberspace.de cp audiovisdb.ini ~/etc/services.d/
+      run: ssh guido@kohoutek.uberspace.de cp ./target/audiovisdb.ini ~/etc/services.d/
 
     - name: Run server via supervisord
       run: ssh guido@kohoutek.uberspace.de supervisorctl reread
