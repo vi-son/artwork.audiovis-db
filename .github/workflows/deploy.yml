@@ -53,6 +53,3 @@ jobs:
       with:
         host: kohoutek.uberspace.de
         private-key: ${{ secrets.SSH_KEY }}
-
-    - name: Run server via supervisord
-      run: ssh guido@kohoutek.uberspace.de cp /var/www/virtual/guido/api.mixing-senses.art/audiovisdb.ini ~/etc/services.d/
