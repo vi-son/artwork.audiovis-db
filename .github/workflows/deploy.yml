@@ -48,6 +48,12 @@ jobs:
     - name: Display status from deploy
       run: echo "${{ steps.deploy.outputs.status }}"
 
+    - name: Setup SSH
+      uses: MrSquaare/ssh-setup-action@v1
+      with:
+        host: kohoutek.uberspace.de
+        private-key: ${{ secrets.SSH_KEY }}
+
     - name: Install supervisord ini file on server
       run: ssh guido@kohoutek.uberspace.de cp audiovisdb.ini ~/etc/services.d/
 
