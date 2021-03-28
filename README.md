@@ -1,3 +1,5 @@
+[![CI](https://github.com/vi-son/artwork.audiovis-db/actions/workflows/deploy.yml/badge.svg)](https://github.com/vi-son/artwork.audiovis-db/actions/workflows/deploy.yml)
+
 # audiovis i/o API/Database backend
 ### Storing artwork creations in a MongoDB via Clojure
 
